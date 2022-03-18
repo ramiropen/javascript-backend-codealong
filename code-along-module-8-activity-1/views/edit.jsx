@@ -15,19 +15,19 @@ function Edit ({bread}) {
             required
             defaultValue={bread.name}
           />
-          <label htmlFor="image">Image</label>
-          <input
-            type="text"
-            name="image"
-            id="image"
-            defaultValue={bread.image}
-          />
           <label htmlFor="hasGluten">Has Gluten?</label>
           <input
             type="checkbox"
             name="hasGluten"
             id="hasGluten"
             defaultChecked={bread.hasGluten}
+          />
+          <label htmlFor="image">Image</label>
+          <input
+            type="text"
+            name="image"
+            id="image"
+            defaultValue={bread.image}
           />
           <br />
           <input type="submit"/>

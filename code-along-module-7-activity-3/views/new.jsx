@@ -8,10 +8,10 @@ function New() {
       <form action='/breads' method='POST'>
         <label htmlFor='name'>Name</label>
         <input type='text' name='name' id='name' required />
-        <label htmlFor='image'>Image</label>
-        <input type='text' name='image' id='image' />
         <label htmlFor='hasGluten'>Has Gluten?</label>
         <input type='checkbox' name='hasGluten' id='hasGluten' defaultChecked />
+        <label htmlFor='image'>Image</label>
+        <input type='text' name='image' id='image' />
         <br />
         <input type='submit' />
       </form>
