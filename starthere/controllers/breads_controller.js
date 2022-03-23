@@ -1,18 +1,22 @@
 const express = require("express");
 const breads = express.Router();
 const Bread = require("../models/bread.js");
+const Baker = require('../models/baker.js')
 
-// INDEX
-breads.get("/", (req, res) => {
-  // get data from model
-  Bread.find().then((foundBreads) => {
-    // use data in rendering view
-    res.render("index", {
-      breads: foundBreads,
-      title: "Index Page",
-    });
-  });
-});
+// Index:
+breads.get('/', (req, res) => {
+  Baker.find()
+    .then(foundBakers => {
+      Bread.find()
+      .then(foundBreads => {
+          res.render('index', {
+              breads: foundBreads,
+              bakers: foundBakers,
+              title: 'Index Page'
+          })
+      })
+    })
+})
 
 // CREATE
 breads.post("/", (req, res) => {
@@ -29,18 +33,29 @@ breads.post("/", (req, res) => {
 });
 
 // NEW
-breads.get("/new", (req, res) => {
-  res.render("new");
-});
+breads.get('/new', (req, res) => {
+    Baker.find() // get data from model/db
+        .then(foundBakers => {
+            res.render(
+              'new', 
+              {bakers: foundBakers}
+            )
+      })
+})
 
 // SHOW
-breads.get("/:id", (req, res) => {
-  Bread.findById(req.params.id).then((foundBread) => {
-    res.render("show", {
-      bread: foundBread,
-    });
-  });
-});
+breads.get('/:id', (req, res) => {
+  Bread.findById(req.params.id) // find the bread on the db
+      .populate('baker') // provide its parent baker data
+      .then(foundBread => {
+        res.render('show', {
+            bread: foundBread
+        })
+      })
+      .catch(err => {
+        res.send('404')
+      })
+})
 
 // DELETE
 breads.delete("/:id", (req, res) => {
@@ -63,12 +78,17 @@ breads.put("/:id", (req, res) => {
 });
 
 // EDIT
-breads.get("/:id/edit", (req, res) => {
-  Bread.findById(req.params.id).then((foundBread) => {
-    res.render("edit", {
-      bread: foundBread,
-    });
-  });
-});
+ breads.get('/:id/edit', (req, res) => {
+  Baker.find()
+    .then(foundBakers => {
+        Bread.findById(req.params.id)
+          .then(foundBread => {
+            res.render('edit', {
+                bread: foundBread, 
+                bakers: foundBakers 
+            })
+          })
+    })
+})
 
 module.exports = breads;
